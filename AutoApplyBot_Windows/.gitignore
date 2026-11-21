@@ -1,0 +1,6 @@
+.venv/
+__pycache__/
+chrome_profile/
+tailored_resumes/
+applied.csv
+.env

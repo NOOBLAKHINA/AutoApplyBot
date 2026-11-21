@@ -1,0 +1,88 @@
+# ---- What to search for ----
+titles:
+  - GenAI Developer
+  - Agentic AI Developer
+  - AI Developer
+  - AI Engineer
+  - ML Developer
+  - Machine Learning Engineer
+  - Software Developer
+  - Software Engineer
+  - Embedded Software Developer
+  - Embedded Software Engineer
+  - Data Analyst
+  - Data Scientist
+  - LLM Engineer
+  - Python Developer
+
+locations:
+  - India
+  # - Bengaluru
+  # - Remote
+
+# A job title must contain at least one of these (case-insensitive) to be applied to.
+title_must_include: [ai, ml, machine learning, genai, gen ai, llm, agentic, software, developer,
+                     engineer, embedded, firmware, data, python, deep learning, nlp]
+# ...and none of these.
+title_exclude: [intern, director, vp, head of, principal, sales, manager, recruiter, qa tester]
+
+# ---- Limits ----
+max_applications_per_run: 40      # per portal per run; keep it modest to avoid account flags
+daily_limit_per_portal: 50        # LinkedIn & Naukri cap applications at 50/day; counted from applied.csv
+posted_within_days: 7             # LinkedIn: 1, 7 or 30
+tailor_resume: false             # rewrite resume per job with Claude (needs ANTHROPIC_API_KEY); false = always base resume
+dry_run: false                   # true = fill forms but don't submit. Set to false when happy.
+
+# ---- Your profile (used to answer form questions) ----
+profile:
+  resume_path: "C:/Users/YOUR_USERNAME/Documents/Resume.pdf"
+  phone: "8700696749"
+  years_experience: 2
+  current_ctc_lpa: 9
+  expected_ctc_lpa: 15
+  notice_period_days: 30
+  city: Delhi
+  linkedin_url: https://www.linkedin.com/in/gaurav-lakhina-159a1419a
+  github_url: https://github.com/NOOBLAKHINA
+
+# Skip jobs where the portal itself warns you're not a fit (YC: "This may not be a match").
+skip_portal_mismatch: true
+# YC/Wellfound: skip jobs needing more than (your years_experience + this) years.
+experience_gap: 2
+
+# Note sent with YC (Work at a Startup) & Wellfound applications when Claude isn't used.
+# Placeholders: {title} {company} + any profile field. EDIT THIS – make it sound like you.
+cover_note: |
+  Hi, I'm interested in the {title} role at {company}. I have {years_experience} years of experience
+  building software, with hands-on work in AI/ML and Python. I enjoy shipping in small, fast-moving
+  teams and would love to contribute to what you're building. My resume is on my profile –
+  happy to chat whenever suits you. I'm based in {city} and my notice period is {notice_period_days} days.
+
+# Question-answer rules. First rule whose keyword appears in the question wins.
+# Anything unmatched: numeric fields -> years_experience, yes/no -> "Yes".
+answers:
+  # Profile links first, so "GitHub link showing your experience" isn't caught by the experience rule.
+  - match: [linkedin]
+    value: "{linkedin_url}"
+  # Any "share your work" question gets the GitHub link.
+  - match: [github, git hub, work sample, sample of your work, samples of your work, examples of your work,
+            code sample, writing sample, portfolio, public artifact, link to your work, link to a project,
+            link to a project you, project link, side project, repository, repo link, share your work]
+    value: "{github_url}"
+  - match: [notice period]
+    value: "{notice_period_days}"
+  - match: [current ctc, current salary, current compensation]
+    value: "{current_ctc_lpa}"
+  - match: [expected ctc, expected salary, expected compensation]
+    value: "{expected_ctc_lpa}"
+  - match: [phone, mobile]
+    value: "{phone}"
+  - match: [city, location, located]
+    value: "{city}"
+  - match: [sponsorship, visa]
+    value: "No"
+  - match: [relocate, authorized, authorised, legally, commute, onsite, on-site, hybrid, immediately]
+    value: "Yes"
+  - match: [years, experience]
+    value: "{years_experience}"
+
